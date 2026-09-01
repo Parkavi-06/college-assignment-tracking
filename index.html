@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Assignment Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container"></div>
+
+    <h1>College Assignment Tracker</h1>
+    <div class="dashboard">
+    <div class="card">
+        <h3>Total Assignments</h3>
+        <p id="totalCount">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Pending</h3>
+        <p id="pendingCount">0</p>
+    </div>
+
+    <div class="card">
+        <h3>Completed</h3>
+        <p id="completedCount">0</p>
+    </div>
+</div>
+
+    <p>Track your assignments easily.</p>
+    <h2>Add Assignment</h2>
+
+<label>Assignment Name:</label>
+<input type="text" placeholder="Enter assignment name">
+
+<br><br>
+
+<label>Due Date:</label>
+<input type="date">
+
+<br><br>
+
+<label>Priority:</label>
+
+<select id="priority">
+    <option value="Low">Low</option>
+    <option value="Medium">Medium</option>
+    <option value="High">High</option>
+</select>
+
+<br><br>
+
+<button>Add Assignment</button>
+
+<h2>My Assignments</h2>
+
+<ul id="assignmentList">
+</ul>
+<script>
+    const assignmentInput = document.querySelector('input[type="text"]');
+    const dateInput = document.querySelector('input[type="date"]');
+    const priorityInput = document.getElementById('priority');
+    const addButton = document.querySelector('button');
+    const assignmentList = document.getElementById('assignmentList');
+
+    const totalCount = document.getElementById('totalCount');
+    const pendingCount = document.getElementById('pendingCount');
+    const completedCount = document.getElementById('completedCount');
+
+    function updateDashboard() {
+    const assignments = assignmentList.querySelectorAll('li');
+
+    totalCount.textContent = assignments.length;
+
+    let completed = 0;
+
+    assignments.forEach(function (assignment) {
+        if (assignment.style.textDecoration === "line-through") {
+            completed++;
+        }
+    });
+
+    completedCount.textContent = completed;
+    pendingCount.textContent = assignments.length - completed;
+}
+
+    addButton.addEventListener('click', function () {
+        const assignmentName = assignmentInput.value;
+        const dueDate = dateInput.value;
+        const priority = priorityInput.value;
+
+        if (assignmentName === "" || dueDate === "") {
+            alert("Please enter assignment name and due date.");
+            return;
+        }
+
+        const listItem = document.createElement('li');
+
+       listItem.textContent = assignmentName + " - Due: " + dueDate + " - Priority: " + priority;
+        const deleteButton = document.createElement('button');
+
+deleteButton.textContent = "Delete";
+
+deleteButton.addEventListener('click', function () {
+    listItem.remove();
+});
+const completeButton = document.createElement('button');
+
+completeButton.textContent = "Completed";
+
+completeButton.addEventListener('click', function () {
+    listItem.style.textDecoration = "line-through";
+    listItem.style.opacity = "0.6";
+});
+
+listItem.appendChild(completeButton);
+listItem.appendChild(deleteButton);
+assignmentList.appendChild(listItem);
+updateDashboard();
+
+        assignmentInput.value = "";
+        dateInput.value = "";
+    });
+</script>
+</div>
+
+</body>
+</html>
