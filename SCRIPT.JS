@@ -1,784 +1,999 @@
-/* ============================= */
-/* RESET */
-/* ============================= */
+console.log("SCRIPT JS WORKING");
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+document.addEventListener("DOMContentLoaded", function () {
+
+    // =====================================
+    // SUBJECT MANAGEMENT ELEMENTS
+    // =====================================
+
+    const subjectInput =
+        document.getElementById("subjectInput");
+
+    const addSubjectButton =
+        document.getElementById("addSubjectButton");
+
+    const subjectList =
+        document.getElementById("subjectList");
+
+    const subjectCount =
+        document.getElementById("subjectCount");
 
 
-/* ============================= */
-/* BODY */
-/* ============================= */
+    // =====================================
+    // ASSIGNMENT ELEMENTS
+    // =====================================
 
-body {
+    const assignmentSubject =
+        document.getElementById("assignmentSubject");
 
-    font-family: Arial, sans-serif;
+    const assignmentTitle =
+        document.getElementById("assignmentTitle");
 
-    background:
-        linear-gradient(
-            135deg,
-            #eef3ff,
-            #f7f9fc
+    const assignmentDescription =
+        document.getElementById("assignmentDescription");
+
+    const assignmentDeadline =
+        document.getElementById("assignmentDeadline");
+
+    const assignmentPriority =
+        document.getElementById("assignmentPriority");
+
+    const publishAssignmentButton =
+        document.getElementById("publishAssignmentButton");
+
+    const publishedAssignmentList =
+        document.getElementById("publishedAssignmentList");
+
+    const assignmentCount =
+        document.getElementById("assignmentCount");
+
+
+    // =====================================
+    // GPA ELEMENTS
+    // =====================================
+
+    const gpaSubjectName =
+        document.getElementById("gpaSubjectName");
+
+    const gpaSubjectCode =
+        document.getElementById("gpaSubjectCode");
+
+    const gpaCredit =
+        document.getElementById("gpaCredit");
+
+    const gpaGrade =
+        document.getElementById("gpaGrade");
+
+    const addGpaSubjectButton =
+        document.getElementById("addGpaSubjectButton");
+
+    const gpaSubjectList =
+        document.getElementById("gpaSubjectList");
+
+    const calculateGpaButton =
+        document.getElementById("calculateGpaButton");
+
+    const gpaResult =
+        document.getElementById("gpaResult");
+
+
+    // =====================================
+    // CGPA ELEMENTS
+    // =====================================
+
+    const semesterName =
+        document.getElementById("semesterName");
+
+    const semesterGpa =
+        document.getElementById("semesterGpa");
+
+    const addSemesterButton =
+        document.getElementById("addSemesterButton");
+
+    const semesterList =
+        document.getElementById("semesterList");
+
+    const calculateCgpaButton =
+        document.getElementById("calculateCgpaButton");
+
+    const cgpaResult =
+        document.getElementById("cgpaResult");
+
+
+    // =====================================
+    // DATA ARRAYS
+    // =====================================
+
+    let subjects = [];
+    let assignments = [];
+
+    let gpaSubjects = [];
+
+    let semesters = [];
+
+
+    // =====================================
+    // LOAD SUBJECTS
+    // =====================================
+
+    try {
+
+        const savedSubjects =
+            localStorage.getItem("subjects");
+
+        if (savedSubjects) {
+
+            subjects =
+                JSON.parse(savedSubjects);
+
+        }
+
+    } catch (error) {
+
+        subjects = [];
+
+        localStorage.removeItem("subjects");
+
+    }
+
+
+    // =====================================
+    // LOAD ASSIGNMENTS
+    // =====================================
+
+    try {
+
+        const savedAssignments =
+            localStorage.getItem("assignments");
+
+        if (savedAssignments) {
+
+            assignments =
+                JSON.parse(savedAssignments);
+
+        }
+
+    } catch (error) {
+
+        assignments = [];
+
+        localStorage.removeItem("assignments");
+
+    }
+
+
+    // =====================================
+    // SAVE SUBJECTS
+    // =====================================
+
+    function saveSubjects() {
+
+        localStorage.setItem(
+            "subjects",
+            JSON.stringify(subjects)
         );
 
-    color: #1f2937;
+    }
 
-    min-height: 100vh;
 
-}
+    // =====================================
+    // SAVE ASSIGNMENTS
+    // =====================================
 
+    function saveAssignments() {
 
-/* ============================= */
-/* HOME PAGE */
-/* ============================= */
-
-.home-page {
-
-    width: 100%;
-
-    max-width: 1200px;
-
-    margin: auto;
-
-    padding: 40px 25px;
-
-}
-
-
-/* ============================= */
-/* HOME HEADER */
-/* ============================= */
-
-.home-header {
-
-    background: white;
-
-    padding: 30px;
-
-    border-radius: 18px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 20px;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0, 0, 0, 0.08);
-
-    margin-bottom: 30px;
-
-}
-
-
-.logo {
-
-    font-size: 45px;
-
-}
-
-
-.home-header h1 {
-
-    font-size: 34px;
-
-    color: #1e3a8a;
-
-    margin-bottom: 8px;
-
-}
-
-
-.home-header p {
-
-    color: #64748b;
-
-    font-size: 16px;
-
-}
-
-
-/* ============================= */
-/* FEATURES */
-/* ============================= */
-
-.features {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 18px;
-
-    margin-bottom: 35px;
-
-}
-
-
-.feature-card {
-
-    background: white;
-
-    padding: 22px;
-
-    border-radius: 15px;
-
-    box-shadow:
-        0 8px 25px
-        rgba(0, 0, 0, 0.07);
-
-    transition: 0.3s;
-
-}
-
-
-.feature-card:hover {
-
-    transform:
-        translateY(-5px);
-
-}
-
-
-.feature-icon {
-
-    font-size: 28px;
-
-    margin-bottom: 12px;
-
-}
-
-
-.feature-card h3 {
-
-    margin-bottom: 8px;
-
-    color: #1e3a8a;
-
-}
-
-
-.feature-card p {
-
-    color: #64748b;
-
-    font-size: 14px;
-
-    line-height: 1.6;
-
-}
-
-
-/* ============================= */
-/* WELCOME */
-/* ============================= */
-
-.welcome-section {
-
-    text-align: center;
-
-    margin-bottom: 25px;
-
-}
-
-
-.welcome-section h2 {
-
-    font-size: 28px;
-
-    margin-bottom: 8px;
-
-    color: #1e3a8a;
-
-}
-
-
-.welcome-section p {
-
-    color: #64748b;
-
-}
-
-
-/* ============================= */
-/* ROLE CARDS */
-/* ============================= */
-
-.role-container {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 25px;
-
-}
-
-
-.role-card {
-
-    background: white;
-
-    padding: 35px;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 10px 30px
-        rgba(0, 0, 0, 0.08);
-
-    text-align: center;
-
-    transition: 0.3s;
-
-}
-
-
-.role-card:hover {
-
-    transform:
-        translateY(-6px);
-
-}
-
-
-.role-icon {
-
-    font-size: 42px;
-
-    margin-bottom: 15px;
-
-}
-
-
-.role-card h2 {
-
-    color: #1e3a8a;
-
-    margin-bottom: 15px;
-
-}
-
-
-.role-card p {
-
-    color: #64748b;
-
-    line-height: 1.7;
-
-    margin-bottom: 25px;
-
-}
-
-
-.role-button {
-
-    display: inline-block;
-
-    text-decoration: none;
-
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #1e40af
+        localStorage.setItem(
+            "assignments",
+            JSON.stringify(assignments)
         );
 
-    color: white;
+    }
 
-    padding: 13px 25px;
 
-    border-radius: 8px;
+    // =====================================
+    // UPDATE SUBJECT DROPDOWN
+    // =====================================
 
-    font-weight: bold;
+    function updateSubjectDropdown() {
 
-}
+        if (!assignmentSubject) return;
 
+        assignmentSubject.innerHTML =
+            `<option value="">Select Subject</option>`;
 
-.role-button:hover {
+        subjects.forEach(function (subject) {
 
-    opacity: 0.9;
+            const option =
+                document.createElement("option");
 
-}
+            option.value = subject;
 
+            option.textContent = subject;
 
-/* ============================= */
-/* FOOTER */
-/* ============================= */
+            assignmentSubject.appendChild(option);
 
-footer {
+        });
 
-    text-align: center;
+    }
 
-    margin-top: 40px;
 
-    color: #64748b;
+    // =====================================
+    // DISPLAY SUBJECTS
+    // =====================================
 
-}
+    function displaySubjects() {
 
+        if (!subjectList) return;
 
-/* ============================= */
-/* DASHBOARD */
-/* ============================= */
+        subjectList.innerHTML = "";
 
-.dashboard-container {
+        if (subjects.length === 0) {
 
-    max-width: 1200px;
+            subjectList.innerHTML =
+                `<p class="empty-message">
+                    No subjects added yet.
+                </p>`;
 
-    margin: auto;
+        } else {
 
-    padding: 35px 25px;
+            subjects.forEach(function (subject, index) {
 
-}
+                const item =
+                    document.createElement("div");
 
+                item.className =
+                    "list-item";
 
-/* ============================= */
-/* DASHBOARD HEADER */
-/* ============================= */
+                item.innerHTML = `
+                    <h3>${subject}</h3>
 
-.dashboard-header {
+                    <button
+                        type="button"
+                        class="delete-button"
+                        onclick="deleteSubject(${index})"
+                    >
+                        Delete
+                    </button>
+                `;
 
-    background: white;
+                subjectList.appendChild(item);
 
-    padding: 25px 30px;
+            });
 
-    border-radius: 16px;
+        }
 
-    display: flex;
+        if (subjectCount) {
 
-    justify-content: space-between;
+            subjectCount.textContent =
+                subjects.length;
 
-    align-items: center;
+        }
 
-    box-shadow:
-        0 8px 25px
-        rgba(0, 0, 0, 0.08);
+        updateSubjectDropdown();
 
-    margin-bottom: 25px;
+    }
 
-}
 
+    // =====================================
+    // ADD SUBJECT
+    // =====================================
 
-.dashboard-header h1 {
+    if (addSubjectButton) {
 
-    color: #1e3a8a;
+        addSubjectButton.addEventListener(
+            "click",
+            function () {
 
-    margin-bottom: 8px;
+                const subjectName =
+                    subjectInput.value.trim();
 
-}
+                if (subjectName === "") {
 
+                    alert(
+                        "Please enter a subject name"
+                    );
 
-.dashboard-header p {
+                    return;
 
-    color: #64748b;
+                }
 
-}
+                subjects.push(subjectName);
 
+                saveSubjects();
 
-/* ============================= */
-/* LOGOUT */
-/* ============================= */
+                displaySubjects();
 
-.logout-button {
+                subjectInput.value = "";
 
-    text-decoration: none;
-
-    background: #ef4444;
-
-    color: white;
-
-    padding: 11px 20px;
-
-    border-radius: 8px;
-
-}
-
-
-/* ============================= */
-/* STATS */
-/* ============================= */
-
-.stats-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 18px;
-
-    margin-bottom: 25px;
-
-}
-
-
-.stat-card {
-
-    background: white;
-
-    padding: 25px;
-
-    border-radius: 15px;
-
-    box-shadow:
-        0 8px 20px
-        rgba(0, 0, 0, 0.07);
-
-}
-
-
-.stat-card h3 {
-
-    color: #475569;
-
-    font-size: 16px;
-
-    margin-bottom: 15px;
-
-}
-
-
-.stat-card span {
-
-    color: #2563eb;
-
-    font-size: 30px;
-
-    font-weight: bold;
-
-}
-
-
-/* ============================= */
-/* PORTAL SECTION */
-/* ============================= */
-
-.portal-section {
-
-    background: white;
-
-    padding: 30px;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 8px 25px
-        rgba(0, 0, 0, 0.08);
-
-    margin-bottom: 25px;
-
-}
-
-
-.portal-section h2 {
-
-    color: #1e3a8a;
-
-    margin-bottom: 20px;
-
-}
-
-
-.section-description {
-
-    color: #64748b;
-
-    margin-bottom: 20px;
-
-}
-
-
-/* ============================= */
-/* FORM */
-/* ============================= */
-
-.form-group {
-
-    margin-bottom: 18px;
-
-}
-
-
-.form-group label {
-
-    display: block;
-
-    margin-bottom: 8px;
-
-    font-weight: bold;
-
-    color: #334155;
-
-}
-
-
-input,
-select,
-textarea {
-
-    width: 100%;
-
-    padding: 13px;
-
-    border:
-
-        1px solid
-        #cbd5e1;
-
-    border-radius: 8px;
-
-    font-size: 15px;
-
-}
-
-
-textarea {
-
-    min-height: 100px;
-
-    resize: vertical;
-
-}
-
-
-/* ============================= */
-/* SUBJECT INPUT */
-/* ============================= */
-
-.input-row {
-
-    display: flex;
-
-    gap: 12px;
-
-    margin-bottom: 20px;
-
-}
-
-
-.input-row input {
-
-    flex: 1;
-
-}
-
-
-/* ============================= */
-/* BUTTON */
-/* ============================= */
-
-button {
-
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #1e40af
+            }
         );
 
-    color: white;
+    }
 
-    border: none;
 
-    padding: 13px 22px;
+    // =====================================
+    // DELETE SUBJECT
+    // =====================================
 
-    border-radius: 8px;
+    window.deleteSubject =
+        function (index) {
 
-    cursor: pointer;
+            subjects.splice(index, 1);
 
-    font-size: 15px;
+            saveSubjects();
 
-    font-weight: bold;
+            displaySubjects();
 
-}
+        };
 
 
-button:hover {
+    // =====================================
+    // DISPLAY ASSIGNMENTS
+    // =====================================
 
-    opacity: 0.9;
+    function displayAssignments() {
 
-}
+        if (!publishedAssignmentList) return;
 
+        publishedAssignmentList.innerHTML = "";
 
-.secondary-button {
+        if (assignments.length === 0) {
 
-    margin-top: 20px;
+            publishedAssignmentList.innerHTML =
+                `<p class="empty-message">
+                    No assignments published yet.
+                </p>`;
 
-}
+        } else {
 
+            assignments.forEach(
+                function (assignment, index) {
 
-/* ============================= */
-/* LIST */
-/* ============================= */
+                    const item =
+                        document.createElement("div");
 
-.list-container {
+                    item.className =
+                        "list-item";
 
-    margin-top: 15px;
+                    item.innerHTML = `
+                        <h3>${assignment.title}</h3>
 
-}
+                        <p>
+                            <strong>Subject:</strong>
+                            ${assignment.subject}
+                        </p>
 
+                        <p>
+                            <strong>Description:</strong>
+                            ${assignment.description}
+                        </p>
 
-.list-item {
+                        <p>
+                            <strong>Deadline:</strong>
+                            ${assignment.deadline}
+                        </p>
 
-    background: #f8fafc;
+                        <p>
+                            <strong>Priority:</strong>
+                            ${assignment.priority}
+                        </p>
 
-    padding: 18px;
+                        <button
+                            type="button"
+                            class="delete-button"
+                            onclick="deleteAssignment(${index})"
+                        >
+                            Delete
+                        </button>
+                    `;
 
-    border-radius: 10px;
+                    publishedAssignmentList.appendChild(item);
 
-    margin-bottom: 12px;
+                }
+            );
 
-    border-left:
+        }
 
-        4px solid
-        #2563eb;
+        if (assignmentCount) {
 
-}
+            assignmentCount.textContent =
+                assignments.length;
 
-
-.list-item h3 {
-
-    margin-bottom: 8px;
-
-    color: #1e3a8a;
-
-}
-
-
-.list-item p {
-
-    margin: 5px 0;
-
-    color: #475569;
-
-}
-
-
-.delete-button {
-
-    background: #ef4444;
-
-    margin-top: 10px;
-
-}
-
-
-.empty-message {
-
-    color: #64748b;
-
-}
-
-
-/* ============================= */
-/* CGPA */
-/* ============================= */
-
-.cgpa-result {
-
-    margin-top: 20px;
-
-    font-size: 20px;
-
-    font-weight: bold;
-
-    color: #1e3a8a;
-
-}
-
-
-.cgpa-result span {
-
-    margin-left: 10px;
-
-    background: #2563eb;
-
-    color: white;
-
-    padding: 8px 15px;
-
-    border-radius: 8px;
-
-}
-
-
-/* ============================= */
-/* MOBILE */
-/* ============================= */
-
-@media (max-width: 900px) {
-
-    .features {
-
-        grid-template-columns:
-            repeat(2, 1fr);
+        }
 
     }
 
 
-    .stats-grid {
+    // =====================================
+    // PUBLISH ASSIGNMENT
+    // =====================================
 
-        grid-template-columns:
-            repeat(2, 1fr);
+    if (publishAssignmentButton) {
+
+        publishAssignmentButton.addEventListener(
+            "click",
+            function () {
+
+                const subject =
+                    assignmentSubject.value;
+
+                const title =
+                    assignmentTitle.value.trim();
+
+                const description =
+                    assignmentDescription.value.trim();
+
+                const deadline =
+                    assignmentDeadline.value;
+
+                const priority =
+                    assignmentPriority.value;
+
+
+                if (
+                    subject === "" ||
+                    title === "" ||
+                    description === "" ||
+                    deadline === ""
+                ) {
+
+                    alert(
+                        "Please fill all assignment details"
+                    );
+
+                    return;
+
+                }
+
+
+                const newAssignment = {
+
+                    subject: subject,
+
+                    title: title,
+
+                    description: description,
+
+                    deadline: deadline,
+
+                    priority: priority
+
+                };
+
+
+                assignments.push(newAssignment);
+
+                saveAssignments();
+
+                displayAssignments();
+
+
+                assignmentSubject.value = "";
+
+                assignmentTitle.value = "";
+
+                assignmentDescription.value = "";
+
+                assignmentDeadline.value = "";
+
+                assignmentPriority.value = "Low";
+
+
+                alert(
+                    "Assignment published successfully!"
+                );
+
+            }
+        );
 
     }
 
-}
+
+    // =====================================
+    // DELETE ASSIGNMENT
+    // =====================================
+
+    window.deleteAssignment =
+        function (index) {
+
+            assignments.splice(index, 1);
+
+            saveAssignments();
+
+            displayAssignments();
+
+        };
 
 
-@media (max-width: 600px) {
+    // =====================================
+    // GPA GRADE POINT FUNCTION
+    // =====================================
 
-    .home-header {
+    function getGradePoint(grade) {
 
-        flex-direction: column;
+        const gradePoints = {
 
-        text-align: center;
+            "O": 10,
+            "A+": 9,
+            "A": 8,
+            "B+": 7,
+            "B": 6,
+            "C": 5,
+            "F": 0
 
-    }
+        };
 
-
-    .role-container {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .features {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .stats-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-    .dashboard-header {
-
-        flex-direction: column;
-
-        gap: 15px;
-
-        text-align: center;
+        return gradePoints[grade];
 
     }
 
 
-    .input-row {
+    // =====================================
+    // ADD GPA SUBJECT
+    // =====================================
 
-        flex-direction: column;
+    if (addGpaSubjectButton) {
+
+        addGpaSubjectButton.addEventListener(
+            "click",
+            function () {
+
+                const name =
+                    gpaSubjectName.value.trim();
+
+                const code =
+                    gpaSubjectCode.value.trim();
+
+                const credit =
+                    Number(gpaCredit.value);
+
+                const grade =
+                    gpaGrade.value;
+
+
+                if (
+                    name === "" ||
+                    code === "" ||
+                    gpaCredit.value === "" ||
+                    grade === ""
+                ) {
+
+                    alert(
+                        "Please fill all subject details"
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    credit <= 0 ||
+                    !Number.isInteger(credit)
+                ) {
+
+                    alert(
+                        "Please enter a valid whole number for Credit"
+                    );
+
+                    return;
+
+                }
+
+
+                const newSubject = {
+
+                    name: name,
+
+                    code: code,
+
+                    credit: credit,
+
+                    grade: grade,
+
+                    gradePoint:
+                        getGradePoint(grade)
+
+                };
+
+
+                // ADD UNLIMITED SUBJECTS
+
+                gpaSubjects.push(newSubject);
+
+
+                displayGpaSubjects();
+
+
+                // CLEAR FOR NEXT SUBJECT
+
+                gpaSubjectName.value = "";
+
+                gpaSubjectCode.value = "";
+
+                gpaCredit.value = "";
+
+                gpaGrade.value = "";
+
+
+                // CURSOR RETURNS TO SUBJECT NAME
+
+                gpaSubjectName.focus();
+
+            }
+        );
 
     }
 
-}
+
+    // =====================================
+    // DISPLAY GPA SUBJECTS
+    // =====================================
+
+    function displayGpaSubjects() {
+
+        if (!gpaSubjectList) return;
+
+        gpaSubjectList.innerHTML = "";
+
+
+        if (gpaSubjects.length === 0) {
+
+            gpaSubjectList.innerHTML =
+                `<p class="empty-message">
+                    No subjects added yet.
+                </p>`;
+
+            return;
+
+        }
+
+
+        gpaSubjects.forEach(
+            function (subject, index) {
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "list-item";
+
+
+                item.innerHTML = `
+                    <h3>${subject.name}</h3>
+
+                    <p>
+                        <strong>Subject Code:</strong>
+                        ${subject.code}
+                    </p>
+
+                    <p>
+                        <strong>Credit:</strong>
+                        ${subject.credit}
+                    </p>
+
+                    <p>
+                        <strong>Grade:</strong>
+                        ${subject.grade}
+                    </p>
+
+                    <p>
+                        <strong>Grade Point:</strong>
+                        ${subject.gradePoint}
+                    </p>
+
+                    <button
+                        type="button"
+                        class="delete-button"
+                        onclick="deleteGpaSubject(${index})"
+                    >
+                        Delete
+                    </button>
+                `;
+
+
+                gpaSubjectList.appendChild(item);
+
+            }
+        );
+
+    }
+
+
+    // =====================================
+    // DELETE GPA SUBJECT
+    // =====================================
+
+    window.deleteGpaSubject =
+        function (index) {
+
+            gpaSubjects.splice(index, 1);
+
+            displayGpaSubjects();
+
+        };
+
+
+    // =====================================
+    // CALCULATE GPA
+    // =====================================
+
+    if (calculateGpaButton) {
+
+        calculateGpaButton.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    gpaSubjects.length === 0
+                ) {
+
+                    alert(
+                        "Please add at least one subject"
+                    );
+
+                    return;
+
+                }
+
+
+                let totalPoints = 0;
+
+                let totalCredits = 0;
+
+
+                gpaSubjects.forEach(
+                    function (subject) {
+
+                        totalPoints +=
+                            subject.credit *
+                            subject.gradePoint;
+
+                        totalCredits +=
+                            subject.credit;
+
+                    }
+                );
+
+
+                const gpa =
+                    totalPoints /
+                    totalCredits;
+
+
+                gpaResult.textContent =
+                    gpa.toFixed(2);
+
+            }
+        );
+
+    }
+
+
+    // =====================================
+    // ADD SEMESTER GPA
+    // =====================================
+
+    if (addSemesterButton) {
+
+        addSemesterButton.addEventListener(
+            "click",
+            function () {
+
+                const semester =
+                    semesterName.value;
+
+                const gpa =
+                    Number(semesterGpa.value);
+
+
+                if (
+                    semester === "" ||
+                    semesterGpa.value === ""
+                ) {
+
+                    alert(
+                        "Please select semester and enter GPA"
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    gpa < 0 ||
+                    gpa > 10
+                ) {
+
+                    alert(
+                        "GPA must be between 0 and 10"
+                    );
+
+                    return;
+
+                }
+
+
+                const alreadyAdded =
+                    semesters.some(
+                        function (item) {
+
+                            return (
+                                item.semester ===
+                                semester
+                            );
+
+                        }
+                    );
+
+
+                if (alreadyAdded) {
+
+                    alert(
+                        "This semester is already added"
+                    );
+
+                    return;
+
+                }
+
+
+                semesters.push({
+
+                    semester: semester,
+
+                    gpa: gpa
+
+                });
+
+
+                displaySemesters();
+
+
+                semesterName.value = "";
+
+                semesterGpa.value = "";
+
+            }
+        );
+
+    }
+
+
+    // =====================================
+    // DISPLAY SEMESTERS
+    // =====================================
+
+    function displaySemesters() {
+
+        if (!semesterList) return;
+
+        semesterList.innerHTML = "";
+
+
+        if (semesters.length === 0) {
+
+            semesterList.innerHTML =
+                `<p class="empty-message">
+                    No semester GPA added yet.
+                </p>`;
+
+            return;
+
+        }
+
+
+        semesters.forEach(
+            function (semester, index) {
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "list-item";
+
+
+                item.innerHTML = `
+                    <h3>${semester.semester}</h3>
+
+                    <p>
+                        <strong>GPA:</strong>
+                        ${semester.gpa.toFixed(2)}
+                    </p>
+
+                    <button
+                        type="button"
+                        class="delete-button"
+                        onclick="deleteSemester(${index})"
+                    >
+                        Delete
+                    </button>
+                `;
+
+
+                semesterList.appendChild(item);
+
+            }
+        );
+
+    }
+
+
+    // =====================================
+    // DELETE SEMESTER
+    // =====================================
+
+    window.deleteSemester =
+        function (index) {
+
+            semesters.splice(index, 1);
+
+            displaySemesters();
+
+        };
+
+
+    // =====================================
+    // CALCULATE OVERALL CGPA
+    // =====================================
+
+    if (calculateCgpaButton) {
+
+        calculateCgpaButton.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    semesters.length === 0
+                ) {
+
+                    alert(
+                        "Please add at least one semester GPA"
+                    );
+
+                    return;
+
+                }
+
+
+                let totalGpa = 0;
+
+
+                semesters.forEach(
+                    function (semester) {
+
+                        totalGpa +=
+                            semester.gpa;
+
+                    }
+                );
+
+
+                const cgpa =
+                    totalGpa /
+                    semesters.length;
+
+
+                cgpaResult.textContent =
+                    cgpa.toFixed(2);
+
+            }
+        );
+
+    }
+
+
+    // =====================================
+    // INITIAL LOAD
+    // =====================================
+
+    displaySubjects();
+
+    displayAssignments();
+
+    displayGpaSubjects();
+
+    displaySemesters();
+
+});
