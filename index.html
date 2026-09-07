@@ -2,129 +2,222 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Assignment Tracker</title>
 
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>College Academic Portal</title>
+
+    <link rel="stylesheet" href="STYLE.CSS">
 </head>
+
 <body>
 
-    <div class="container"></div>
+    <div class="page-wrapper">
 
-    <h1>College Assignment Tracker</h1>
-    <div class="dashboard">
-    <div class="card">
-        <h3>Total Assignments</h3>
-        <p id="totalCount">0</p>
+        <!-- NAVBAR -->
+
+        <nav class="navbar">
+
+            <div class="logo">
+
+                <div class="logo-icon">🎓</div>
+
+                <div>
+                    <h2>College Academic Portal</h2>
+                    <p>Academic Management System</p>
+                </div>
+
+            </div>
+
+            <div class="nav-status">
+                <span class="status-dot"></span>
+                Academic Portal
+            </div>
+
+        </nav>
+
+
+        <!-- HERO SECTION -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="welcome-badge">
+                    🎓 Smart Academic Management
+                </div>
+
+                <h1>
+                    Manage Your Academic Journey
+                    <span>In One Place</span>
+                </h1>
+
+                <p>
+                    Manage subjects, assignments, student submissions,
+                    attendance and academic progress easily through one
+                    simple platform.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- FEATURES -->
+
+        <section class="features-section">
+
+            <h2>Everything You Need</h2>
+
+            <p class="section-description">
+                A simple platform designed for students and staff.
+            </p>
+
+
+            <div class="features-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">📚</div>
+
+                    <h3>Subject Management</h3>
+
+                    <p>
+                        Add and manage subjects easily in one place.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">📝</div>
+
+                    <h3>Assignment Tracking</h3>
+
+                    <p>
+                        Create assignments and manage deadlines efficiently.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">📤</div>
+
+                    <h3>Student Submission</h3>
+
+                    <p>
+                        Submit assignments and track submission history.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">📊</div>
+
+                    <h3>Academic Progress</h3>
+
+                    <p>
+                        Monitor attendance, grades and academic performance.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ROLE SECTION -->
+
+        <section class="role-section">
+
+            <div class="role-heading">
+
+                <h2>Welcome Back 👋</h2>
+
+                <p>
+                    Please select your role to continue.
+                </p>
+
+            </div>
+
+
+            <div class="role-container">
+
+
+                <!-- STUDENT -->
+
+                <div class="role-card student-card">
+
+                    <div class="role-icon">
+                        👨‍🎓
+                    </div>
+
+                    <h2>Student</h2>
+
+                    <p>
+                        View assignments, submit your work,
+                        check attendance and calculate your CGPA.
+                    </p>
+
+                    <a href="STUDENT.HTML" class="role-button">
+
+                        Continue as Student
+
+                        <span>→</span>
+
+                    </a>
+
+                </div>
+
+
+                <!-- STAFF -->
+
+                <div class="role-card staff-card">
+
+                    <div class="role-icon">
+                        👩‍🏫
+                    </div>
+
+                    <h2>Staff</h2>
+
+                    <p>
+                        Manage subjects, create assignments,
+                        monitor student submissions and attendance.
+                    </p>
+
+                    <a href="STAFF.HTML" class="role-button">
+
+                        Continue as Staff
+
+                        <span>→</span>
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            © 2026 College Academic Management System
+
+        </footer>
+
+
     </div>
 
-    <div class="card">
-        <h3>Pending</h3>
-        <p id="pendingCount">0</p>
-    </div>
-
-    <div class="card">
-        <h3>Completed</h3>
-        <p id="completedCount">0</p>
-    </div>
-</div>
-
-    <p>Track your assignments easily.</p>
-    <h2>Add Assignment</h2>
-
-<label>Assignment Name:</label>
-<input type="text" placeholder="Enter assignment name">
-
-<br><br>
-
-<label>Due Date:</label>
-<input type="date">
-
-<br><br>
-
-<label>Priority:</label>
-
-<select id="priority">
-    <option value="Low">Low</option>
-    <option value="Medium">Medium</option>
-    <option value="High">High</option>
-</select>
-
-<br><br>
-
-<button>Add Assignment</button>
-
-<h2>My Assignments</h2>
-
-<ul id="assignmentList">
-</ul>
-<script>
-    const assignmentInput = document.querySelector('input[type="text"]');
-    const dateInput = document.querySelector('input[type="date"]');
-    const priorityInput = document.getElementById('priority');
-    const addButton = document.querySelector('button');
-    const assignmentList = document.getElementById('assignmentList');
-
-    const totalCount = document.getElementById('totalCount');
-    const pendingCount = document.getElementById('pendingCount');
-    const completedCount = document.getElementById('completedCount');
-
-    function updateDashboard() {
-    const assignments = assignmentList.querySelectorAll('li');
-
-    totalCount.textContent = assignments.length;
-
-    let completed = 0;
-
-    assignments.forEach(function (assignment) {
-        if (assignment.style.textDecoration === "line-through") {
-            completed++;
-        }
-    });
-
-    completedCount.textContent = completed;
-    pendingCount.textContent = assignments.length - completed;
-}
-
-    addButton.addEventListener('click', function () {
-        const assignmentName = assignmentInput.value;
-        const dueDate = dateInput.value;
-        const priority = priorityInput.value;
-
-        if (assignmentName === "" || dueDate === "") {
-            alert("Please enter assignment name and due date.");
-            return;
-        }
-
-        const listItem = document.createElement('li');
-
-       listItem.textContent = assignmentName + " - Due: " + dueDate + " - Priority: " + priority;
-        const deleteButton = document.createElement('button');
-
-deleteButton.textContent = "Delete";
-
-deleteButton.addEventListener('click', function () {
-    listItem.remove();
-});
-const completeButton = document.createElement('button');
-
-completeButton.textContent = "Completed";
-
-completeButton.addEventListener('click', function () {
-    listItem.style.textDecoration = "line-through";
-    listItem.style.opacity = "0.6";
-});
-
-listItem.appendChild(completeButton);
-listItem.appendChild(deleteButton);
-assignmentList.appendChild(listItem);
-updateDashboard();
-
-        assignmentInput.value = "";
-        dateInput.value = "";
-    });
-</script>
-</div>
 
 </body>
 </html>
