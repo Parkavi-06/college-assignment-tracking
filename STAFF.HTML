@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Dashboard</title>
+
+    <link rel="stylesheet" href="STYLE.CSS">
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-container">
+
+
+    <!-- HEADER -->
+
+    <header class="dashboard-header">
+
+        <div>
+
+            <h1>👩‍🏫 Staff Dashboard</h1>
+
+            <p>
+                Manage subjects, assignments and student records.
+            </p>
+
+        </div>
+
+
+        <a href="INDEX.HTML" class="logout-button">
+
+            Logout
+
+        </a>
+
+    </header>
+
+
+
+    <!-- DASHBOARD CARDS -->
+
+    <section class="stats-grid">
+
+
+        <div class="stat-card">
+
+            <h3>📚 Subjects</h3>
+
+            <span id="subjectCount">0</span>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <h3>📝 Assignments</h3>
+
+            <span id="assignmentCount">0</span>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <h3>📤 Student Submissions</h3>
+
+            <span id="submissionCount">0</span>
+
+        </div>
+
+
+
+        <div class="stat-card">
+
+            <h3>📊 Attendance Records</h3>
+
+            <span id="attendanceCount">0</span>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- SUBJECT MANAGEMENT -->
+
+    <section class="portal-section">
+
+
+        <h2>📚 Manage Subjects</h2>
+
+
+        <div class="input-row">
+
+            <input
+                type="text"
+                id="subjectInput"
+                placeholder="Enter subject name"
+            >
+
+            <button id="addSubjectButton">
+
+                Add Subject
+
+            </button>
+
+        </div>
+
+
+        <div id="subjectList" class="list-container">
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- CREATE ASSIGNMENT -->
+
+    <section class="portal-section">
+
+
+        <h2>📝 Create Assignment</h2>
+
+
+        <div class="form-group">
+
+            <label>Select Subject</label>
+
+            <select id="assignmentSubject">
+
+                <option value="">
+
+                    Select Subject
+
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="form-group">
+
+            <label>Assignment Title</label>
+
+            <input
+                type="text"
+                id="assignmentTitle"
+                placeholder="Enter assignment title"
+            >
+
+        </div>
+
+
+
+        <div class="form-group">
+
+            <label>Assignment Description</label>
+
+            <textarea
+                id="assignmentDescription"
+                placeholder="Enter assignment details"
+            ></textarea>
+
+        </div>
+
+
+
+        <div class="form-group">
+
+            <label>Deadline</label>
+
+            <input
+                type="date"
+                id="assignmentDeadline"
+            >
+
+        </div>
+
+
+
+        <div class="form-group">
+
+            <label>Priority</label>
+
+            <select id="assignmentPriority">
+
+                <option value="Low">
+
+                    Low
+
+                </option>
+
+                <option value="Medium">
+
+                    Medium
+
+                </option>
+
+                <option value="High">
+
+                    High
+
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <button id="publishAssignmentButton">
+
+            Publish Assignment
+
+        </button>
+
+
+    </section>
+
+
+
+    <!-- PUBLISHED ASSIGNMENTS -->
+
+    <section class="portal-section">
+
+
+        <h2>📋 Published Assignments</h2>
+
+
+        <div
+            id="publishedAssignmentList"
+            class="list-container"
+        >
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- STUDENT SUBMISSIONS -->
+
+    <section class="portal-section">
+
+
+        <h2>📤 Student Submissions</h2>
+
+
+        <div
+            id="staffSubmissionList"
+            class="list-container"
+        >
+
+        </div>
+
+
+    </section>
+
+
+
+</div>
+
+
+<script src="SCRIPT.JS"></script>
+
+
+</body>
+
+</html>
