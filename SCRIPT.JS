@@ -994,6 +994,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     displayGpaSubjects();
 
-    displaySemesters();
+    displaySemesters();git status
 
 });
