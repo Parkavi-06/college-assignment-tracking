@@ -1,9 +1,9 @@
-console.log("SCRIPT JS WORKING");
+console.log("SCRIPT.JS WORKING");
 
 document.addEventListener("DOMContentLoaded", function () {
 
     // =====================================
-    // SUBJECT MANAGEMENT ELEMENTS
+    // STAFF DASHBOARD - SUBJECT ELEMENTS
     // =====================================
 
     const subjectInput =
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================
-    // ASSIGNMENT ELEMENTS
+    // STAFF DASHBOARD - ASSIGNMENT ELEMENTS
     // =====================================
 
     const assignmentSubject =
@@ -49,72 +49,52 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================
-    // GPA ELEMENTS
+    // STUDENT DASHBOARD ELEMENTS
     // =====================================
 
-    const gpaSubjectName =
-        document.getElementById("gpaSubjectName");
+    const studentAssignmentList =
+        document.getElementById("studentAssignmentList");
 
-    const gpaSubjectCode =
-        document.getElementById("gpaSubjectCode");
+    const studentAssignmentCount =
+        document.getElementById("studentAssignmentCount");
 
-    const gpaCredit =
-        document.getElementById("gpaCredit");
+    const studentAssignmentSelect =
+        document.getElementById("studentAssignmentSelect");
 
-    const gpaGrade =
-        document.getElementById("gpaGrade");
+    const studentName =
+        document.getElementById("studentName");
 
-    const addGpaSubjectButton =
-        document.getElementById("addGpaSubjectButton");
+    const assignmentFile =
+        document.getElementById("assignmentFile");
 
-    const gpaSubjectList =
-        document.getElementById("gpaSubjectList");
+    const submitAssignmentButton =
+        document.getElementById("submitAssignmentButton");
 
-    const calculateGpaButton =
-        document.getElementById("calculateGpaButton");
+    const studentSubmissionHistory =
+        document.getElementById("studentSubmissionHistory");
 
-    const gpaResult =
-        document.getElementById("gpaResult");
+    const studentSubmittedCount =
+        document.getElementById("studentSubmittedCount");
 
+    const staffSubmissionList =
+        document.getElementById("staffSubmissionList");
 
-    // =====================================
-    // CGPA ELEMENTS
-    // =====================================
-
-    const semesterName =
-        document.getElementById("semesterName");
-
-    const semesterGpa =
-        document.getElementById("semesterGpa");
-
-    const addSemesterButton =
-        document.getElementById("addSemesterButton");
-
-    const semesterList =
-        document.getElementById("semesterList");
-
-    const calculateCgpaButton =
-        document.getElementById("calculateCgpaButton");
-
-    const cgpaResult =
-        document.getElementById("cgpaResult");
+    const submissionCount =
+        document.getElementById("submissionCount");
 
 
     // =====================================
-    // DATA ARRAYS
+    // LOAD DATA FROM LOCAL STORAGE
     // =====================================
 
     let subjects = [];
+
     let assignments = [];
 
-    let gpaSubjects = [];
-
-    let semesters = [];
+    let submissions = [];
 
 
-    // =====================================
     // LOAD SUBJECTS
-    // =====================================
 
     try {
 
@@ -130,16 +110,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     } catch (error) {
 
+        console.log(
+            "Subject data error"
+        );
+
         subjects = [];
 
-        localStorage.removeItem("subjects");
+        localStorage.removeItem(
+            "subjects"
+        );
 
     }
 
 
-    // =====================================
     // LOAD ASSIGNMENTS
-    // =====================================
 
     try {
 
@@ -155,15 +139,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
     } catch (error) {
 
+        console.log(
+            "Assignment data error"
+        );
+
         assignments = [];
 
-        localStorage.removeItem("assignments");
+        localStorage.removeItem(
+            "assignments"
+        );
+
+    }
+
+
+    // LOAD SUBMISSIONS
+
+    try {
+
+        const savedSubmissions =
+            localStorage.getItem("submissions");
+
+        if (savedSubmissions) {
+
+            submissions =
+                JSON.parse(savedSubmissions);
+
+        }
+
+    } catch (error) {
+
+        console.log(
+            "Submission data error"
+        );
+
+        submissions = [];
+
+        localStorage.removeItem(
+            "submissions"
+        );
 
     }
 
 
     // =====================================
-    // SAVE SUBJECTS
+    // SAVE DATA
     // =====================================
 
     function saveSubjects() {
@@ -176,15 +195,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // =====================================
-    // SAVE ASSIGNMENTS
-    // =====================================
-
     function saveAssignments() {
 
         localStorage.setItem(
             "assignments",
             JSON.stringify(assignments)
+        );
+
+    }
+
+
+    function saveSubmissions() {
+
+        localStorage.setItem(
+            "submissions",
+            JSON.stringify(submissions)
         );
 
     }
@@ -196,21 +221,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateSubjectDropdown() {
 
-        if (!assignmentSubject) return;
+        if (!assignmentSubject) {
+
+            return;
+
+        }
+
 
         assignmentSubject.innerHTML =
-            `<option value="">Select Subject</option>`;
+            `<option value="">
+                Select Subject
+            </option>`;
+
 
         subjects.forEach(function (subject) {
 
             const option =
                 document.createElement("option");
 
-            option.value = subject;
 
-            option.textContent = subject;
+            option.value =
+                subject;
 
-            assignmentSubject.appendChild(option);
+
+            option.textContent =
+                subject;
+
+
+            assignmentSubject.appendChild(
+                option
+            );
 
         });
 
@@ -223,11 +263,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function displaySubjects() {
 
-        if (!subjectList) return;
+        if (!subjectList) {
 
-        subjectList.innerHTML = "";
+            return;
 
-        if (subjects.length === 0) {
+        }
+
+
+        subjectList.innerHTML =
+            "";
+
+
+        if (
+            subjects.length === 0
+        ) {
 
             subjectList.innerHTML =
                 `<p class="empty-message">
@@ -236,38 +285,56 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else {
 
-            subjects.forEach(function (subject, index) {
+            subjects.forEach(
+                function (
+                    subject,
+                    index
+                ) {
 
-                const item =
-                    document.createElement("div");
+                    const subjectItem =
+                        document.createElement(
+                            "div"
+                        );
 
-                item.className =
-                    "list-item";
 
-                item.innerHTML = `
-                    <h3>${subject}</h3>
+                    subjectItem.className =
+                        "list-item";
 
-                    <button
-                        type="button"
-                        class="delete-button"
-                        onclick="deleteSubject(${index})"
-                    >
-                        Delete
-                    </button>
-                `;
 
-                subjectList.appendChild(item);
+                    subjectItem.innerHTML =
+                        `
+                        <h3>
+                            ${subject}
+                        </h3>
 
-            });
+                        <button
+                            class="delete-button"
+                            onclick="deleteSubject(${index})"
+                        >
+                            Delete
+                        </button>
+                        `;
+
+
+                    subjectList.appendChild(
+                        subjectItem
+                    );
+
+                }
+            );
 
         }
 
-        if (subjectCount) {
+
+        if (
+            subjectCount
+        ) {
 
             subjectCount.textContent =
                 subjects.length;
 
         }
+
 
         updateSubjectDropdown();
 
@@ -278,7 +345,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // ADD SUBJECT
     // =====================================
 
-    if (addSubjectButton) {
+    if (
+        addSubjectButton
+    ) {
 
         addSubjectButton.addEventListener(
             "click",
@@ -287,7 +356,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 const subjectName =
                     subjectInput.value.trim();
 
-                if (subjectName === "") {
+
+                if (
+                    subjectName === ""
+                ) {
 
                     alert(
                         "Please enter a subject name"
@@ -297,13 +369,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 }
 
-                subjects.push(subjectName);
+
+                subjects.push(
+                    subjectName
+                );
+
 
                 saveSubjects();
 
+
                 displaySubjects();
 
-                subjectInput.value = "";
+
+                subjectInput.value =
+                    "";
+
+
+                alert(
+                    "Subject added successfully!"
+                );
 
             }
         );
@@ -318,9 +402,14 @@ document.addEventListener("DOMContentLoaded", function () {
     window.deleteSubject =
         function (index) {
 
-            subjects.splice(index, 1);
+            subjects.splice(
+                index,
+                1
+            );
+
 
             saveSubjects();
+
 
             displaySubjects();
 
@@ -328,16 +417,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================
-    // DISPLAY ASSIGNMENTS
+    // DISPLAY STAFF ASSIGNMENTS
     // =====================================
 
     function displayAssignments() {
 
-        if (!publishedAssignmentList) return;
+        if (
+            !publishedAssignmentList
+        ) {
 
-        publishedAssignmentList.innerHTML = "";
+            return;
 
-        if (assignments.length === 0) {
+        }
+
+
+        publishedAssignmentList.innerHTML =
+            "";
+
+
+        if (
+            assignments.length === 0
+        ) {
 
             publishedAssignmentList.innerHTML =
                 `<p class="empty-message">
@@ -347,54 +447,81 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
 
             assignments.forEach(
-                function (assignment, index) {
+                function (
+                    assignment,
+                    index
+                ) {
 
-                    const item =
-                        document.createElement("div");
+                    const assignmentItem =
+                        document.createElement(
+                            "div"
+                        );
 
-                    item.className =
+
+                    assignmentItem.className =
                         "list-item";
 
-                    item.innerHTML = `
-                        <h3>${assignment.title}</h3>
+
+                    assignmentItem.innerHTML =
+                        `
+                        <h3>
+                            ${assignment.title}
+                        </h3>
 
                         <p>
-                            <strong>Subject:</strong>
+                            <strong>
+                                Subject:
+                            </strong>
+
                             ${assignment.subject}
                         </p>
 
                         <p>
-                            <strong>Description:</strong>
+                            <strong>
+                                Description:
+                            </strong>
+
                             ${assignment.description}
                         </p>
 
                         <p>
-                            <strong>Deadline:</strong>
+                            <strong>
+                                Deadline:
+                            </strong>
+
                             ${assignment.deadline}
                         </p>
 
                         <p>
-                            <strong>Priority:</strong>
+                            <strong>
+                                Priority:
+                            </strong>
+
                             ${assignment.priority}
                         </p>
 
                         <button
-                            type="button"
                             class="delete-button"
                             onclick="deleteAssignment(${index})"
                         >
                             Delete
                         </button>
-                    `;
+                        `;
 
-                    publishedAssignmentList.appendChild(item);
+
+                    publishedAssignmentList.appendChild(
+                        assignmentItem
+                    );
 
                 }
             );
 
         }
 
-        if (assignmentCount) {
+
+        if (
+            assignmentCount
+        ) {
 
             assignmentCount.textContent =
                 assignments.length;
@@ -408,7 +535,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // PUBLISH ASSIGNMENT
     // =====================================
 
-    if (publishAssignmentButton) {
+    if (
+        publishAssignmentButton
+    ) {
 
         publishAssignmentButton.addEventListener(
             "click",
@@ -417,24 +546,33 @@ document.addEventListener("DOMContentLoaded", function () {
                 const subject =
                     assignmentSubject.value;
 
+
                 const title =
                     assignmentTitle.value.trim();
+
 
                 const description =
                     assignmentDescription.value.trim();
 
+
                 const deadline =
                     assignmentDeadline.value;
+
 
                 const priority =
                     assignmentPriority.value;
 
 
                 if (
+
                     subject === "" ||
+
                     title === "" ||
+
                     description === "" ||
+
                     deadline === ""
+
                 ) {
 
                     alert(
@@ -448,35 +586,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const newAssignment = {
 
-                    subject: subject,
+                    subject:
+                        subject,
 
-                    title: title,
+                    title:
+                        title,
 
-                    description: description,
+                    description:
+                        description,
 
-                    deadline: deadline,
+                    deadline:
+                        deadline,
 
-                    priority: priority
+                    priority:
+                        priority
 
                 };
 
 
-                assignments.push(newAssignment);
+                assignments.push(
+                    newAssignment
+                );
+
 
                 saveAssignments();
+
 
                 displayAssignments();
 
 
-                assignmentSubject.value = "";
+                assignmentSubject.value =
+                    "";
 
-                assignmentTitle.value = "";
 
-                assignmentDescription.value = "";
+                assignmentTitle.value =
+                    "";
 
-                assignmentDeadline.value = "";
 
-                assignmentPriority.value = "Low";
+                assignmentDescription.value =
+                    "";
+
+
+                assignmentDeadline.value =
+                    "";
+
+
+                assignmentPriority.value =
+                    "Low";
 
 
                 alert(
@@ -496,9 +652,14 @@ document.addEventListener("DOMContentLoaded", function () {
     window.deleteAssignment =
         function (index) {
 
-            assignments.splice(index, 1);
+            assignments.splice(
+                index,
+                1
+            );
+
 
             saveAssignments();
+
 
             displayAssignments();
 
@@ -506,60 +667,197 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================
-    // GPA GRADE POINT FUNCTION
+    // STUDENT - DISPLAY ASSIGNMENTS
     // =====================================
 
-    function getGradePoint(grade) {
+    function displayStudentAssignments() {
 
-        const gradePoints = {
+        if (
+            !studentAssignmentList
+        ) {
 
-            "O": 10,
-            "A+": 9,
-            "A": 8,
-            "B+": 7,
-            "B": 6,
-            "C": 5,
-            "F": 0
+            return;
 
-        };
+        }
 
-        return gradePoints[grade];
+
+        studentAssignmentList.innerHTML =
+            "";
+
+
+        if (
+            assignments.length === 0
+        ) {
+
+            studentAssignmentList.innerHTML =
+                `<p class="empty-message">
+                    No assignments available.
+                </p>`;
+
+        } else {
+
+            assignments.forEach(
+                function (
+                    assignment
+                ) {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "list-item";
+
+
+                    item.innerHTML =
+                        `
+                        <h3>
+                            ${assignment.title}
+                        </h3>
+
+                        <p>
+                            <strong>
+                                Subject:
+                            </strong>
+
+                            ${assignment.subject}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Description:
+                            </strong>
+
+                            ${assignment.description}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Deadline:
+                            </strong>
+
+                            ${assignment.deadline}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Priority:
+                            </strong>
+
+                            ${assignment.priority}
+                        </p>
+                        `;
+
+
+                    studentAssignmentList.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+        }
+
+
+        if (
+            studentAssignmentCount
+        ) {
+
+            studentAssignmentCount.textContent =
+                assignments.length;
+
+        }
 
     }
 
 
     // =====================================
-    // ADD GPA SUBJECT
+    // STUDENT ASSIGNMENT DROPDOWN
     // =====================================
 
-    if (addGpaSubjectButton) {
+    function updateStudentAssignmentDropdown() {
 
-        addGpaSubjectButton.addEventListener(
+        if (
+            !studentAssignmentSelect
+        ) {
+
+            return;
+
+        }
+
+
+        studentAssignmentSelect.innerHTML =
+            `<option value="">
+                Select Assignment
+            </option>`;
+
+
+        assignments.forEach(
+            function (
+                assignment,
+                index
+            ) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    index;
+
+
+                option.textContent =
+                    assignment.title +
+                    " - " +
+                    assignment.subject;
+
+
+                studentAssignmentSelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    }
+
+
+    // =====================================
+    // SUBMIT ASSIGNMENT
+    // =====================================
+
+    if (
+        submitAssignmentButton
+    ) {
+
+        submitAssignmentButton.addEventListener(
             "click",
             function () {
 
                 const name =
-                    gpaSubjectName.value.trim();
+                    studentName.value.trim();
 
-                const code =
-                    gpaSubjectCode.value.trim();
 
-                const credit =
-                    Number(gpaCredit.value);
+                const selectedAssignment =
+                    studentAssignmentSelect.value;
 
-                const grade =
-                    gpaGrade.value;
+
+                const file =
+                    assignmentFile.files[0];
 
 
                 if (
                     name === "" ||
-                    code === "" ||
-                    gpaCredit.value === "" ||
-                    grade === ""
+                    selectedAssignment === "" ||
+                    !file
                 ) {
 
                     alert(
-                        "Please fill all subject details"
+                        "Please fill all details and select a file"
                     );
 
                     return;
@@ -567,58 +865,62 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                if (
-                    credit <= 0 ||
-                    !Number.isInteger(credit)
-                ) {
-
-                    alert(
-                        "Please enter a valid whole number for Credit"
-                    );
-
-                    return;
-
-                }
+                const assignment =
+                    assignments[
+                        selectedAssignment
+                    ];
 
 
-                const newSubject = {
+                const submission = {
 
-                    name: name,
+                    studentName:
+                        name,
 
-                    code: code,
+                    assignmentTitle:
+                        assignment.title,
 
-                    credit: credit,
+                    subject:
+                        assignment.subject,
 
-                    grade: grade,
+                    fileName:
+                        file.name,
 
-                    gradePoint:
-                        getGradePoint(grade)
+                    submittedDate:
+                        new Date()
+                            .toLocaleDateString()
 
                 };
 
 
-                // ADD UNLIMITED SUBJECTS
-
-                gpaSubjects.push(newSubject);
-
-
-                displayGpaSubjects();
+                submissions.push(
+                    submission
+                );
 
 
-                // CLEAR FOR NEXT SUBJECT
-
-                gpaSubjectName.value = "";
-
-                gpaSubjectCode.value = "";
-
-                gpaCredit.value = "";
-
-                gpaGrade.value = "";
+                saveSubmissions();
 
 
-                // CURSOR RETURNS TO SUBJECT NAME
+                displayStudentSubmissions();
 
-                gpaSubjectName.focus();
+
+                displayStaffSubmissions();
+
+
+                studentName.value =
+                    "";
+
+
+                studentAssignmentSelect.value =
+                    "";
+
+
+                assignmentFile.value =
+                    "";
+
+
+                alert(
+                    "Assignment submitted successfully!"
+                );
 
             }
         );
@@ -627,359 +929,215 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // =====================================
-    // DISPLAY GPA SUBJECTS
+    // STUDENT SUBMISSION HISTORY
     // =====================================
 
-    function displayGpaSubjects() {
+    function displayStudentSubmissions() {
 
-        if (!gpaSubjectList) return;
-
-        gpaSubjectList.innerHTML = "";
-
-
-        if (gpaSubjects.length === 0) {
-
-            gpaSubjectList.innerHTML =
-                `<p class="empty-message">
-                    No subjects added yet.
-                </p>`;
+        if (
+            !studentSubmissionHistory
+        ) {
 
             return;
 
         }
 
 
-        gpaSubjects.forEach(
-            function (subject, index) {
+        studentSubmissionHistory.innerHTML =
+            "";
 
-                const item =
-                    document.createElement("div");
 
-                item.className =
-                    "list-item";
+        if (
+            submissions.length === 0
+        ) {
 
-
-                item.innerHTML = `
-                    <h3>${subject.name}</h3>
-
-                    <p>
-                        <strong>Subject Code:</strong>
-                        ${subject.code}
-                    </p>
-
-                    <p>
-                        <strong>Credit:</strong>
-                        ${subject.credit}
-                    </p>
-
-                    <p>
-                        <strong>Grade:</strong>
-                        ${subject.grade}
-                    </p>
-
-                    <p>
-                        <strong>Grade Point:</strong>
-                        ${subject.gradePoint}
-                    </p>
-
-                    <button
-                        type="button"
-                        class="delete-button"
-                        onclick="deleteGpaSubject(${index})"
-                    >
-                        Delete
-                    </button>
-                `;
-
-
-                gpaSubjectList.appendChild(item);
-
-            }
-        );
-
-    }
-
-
-    // =====================================
-    // DELETE GPA SUBJECT
-    // =====================================
-
-    window.deleteGpaSubject =
-        function (index) {
-
-            gpaSubjects.splice(index, 1);
-
-            displayGpaSubjects();
-
-        };
-
-
-    // =====================================
-    // CALCULATE GPA
-    // =====================================
-
-    if (calculateGpaButton) {
-
-        calculateGpaButton.addEventListener(
-            "click",
-            function () {
-
-                if (
-                    gpaSubjects.length === 0
-                ) {
-
-                    alert(
-                        "Please add at least one subject"
-                    );
-
-                    return;
-
-                }
-
-
-                let totalPoints = 0;
-
-                let totalCredits = 0;
-
-
-                gpaSubjects.forEach(
-                    function (subject) {
-
-                        totalPoints +=
-                            subject.credit *
-                            subject.gradePoint;
-
-                        totalCredits +=
-                            subject.credit;
-
-                    }
-                );
-
-
-                const gpa =
-                    totalPoints /
-                    totalCredits;
-
-
-                gpaResult.textContent =
-                    gpa.toFixed(2);
-
-            }
-        );
-
-    }
-
-
-    // =====================================
-    // ADD SEMESTER GPA
-    // =====================================
-
-    if (addSemesterButton) {
-
-        addSemesterButton.addEventListener(
-            "click",
-            function () {
-
-                const semester =
-                    semesterName.value;
-
-                const gpa =
-                    Number(semesterGpa.value);
-
-
-                if (
-                    semester === "" ||
-                    semesterGpa.value === ""
-                ) {
-
-                    alert(
-                        "Please select semester and enter GPA"
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    gpa < 0 ||
-                    gpa > 10
-                ) {
-
-                    alert(
-                        "GPA must be between 0 and 10"
-                    );
-
-                    return;
-
-                }
-
-
-                const alreadyAdded =
-                    semesters.some(
-                        function (item) {
-
-                            return (
-                                item.semester ===
-                                semester
-                            );
-
-                        }
-                    );
-
-
-                if (alreadyAdded) {
-
-                    alert(
-                        "This semester is already added"
-                    );
-
-                    return;
-
-                }
-
-
-                semesters.push({
-
-                    semester: semester,
-
-                    gpa: gpa
-
-                });
-
-
-                displaySemesters();
-
-
-                semesterName.value = "";
-
-                semesterGpa.value = "";
-
-            }
-        );
-
-    }
-
-
-    // =====================================
-    // DISPLAY SEMESTERS
-    // =====================================
-
-    function displaySemesters() {
-
-        if (!semesterList) return;
-
-        semesterList.innerHTML = "";
-
-
-        if (semesters.length === 0) {
-
-            semesterList.innerHTML =
+            studentSubmissionHistory.innerHTML =
                 `<p class="empty-message">
-                    No semester GPA added yet.
+                    No submissions yet.
                 </p>`;
+
+        } else {
+
+            submissions.forEach(
+                function (
+                    submission
+                ) {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "list-item";
+
+
+                    item.innerHTML =
+                        `
+                        <h3>
+                            ${submission.assignmentTitle}
+                        </h3>
+
+                        <p>
+                            <strong>
+                                Student:
+                            </strong>
+
+                            ${submission.studentName}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Subject:
+                            </strong>
+
+                            ${submission.subject}
+                        </p>
+
+                        <p>
+                            <strong>
+                                File:
+                            </strong>
+
+                            ${submission.fileName}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Submitted:
+                            </strong>
+
+                            ${submission.submittedDate}
+                        </p>
+                        `;
+
+
+                    studentSubmissionHistory.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+        }
+
+
+        if (
+            studentSubmittedCount
+        ) {
+
+            studentSubmittedCount.textContent =
+                submissions.length;
+
+        }
+
+    }
+
+
+    // =====================================
+    // STAFF - VIEW SUBMISSIONS
+    // =====================================
+
+    function displayStaffSubmissions() {
+
+        if (
+            !staffSubmissionList
+        ) {
 
             return;
 
         }
 
 
-        semesters.forEach(
-            function (semester, index) {
-
-                const item =
-                    document.createElement("div");
-
-                item.className =
-                    "list-item";
+        staffSubmissionList.innerHTML =
+            "";
 
 
-                item.innerHTML = `
-                    <h3>${semester.semester}</h3>
+        if (
+            submissions.length === 0
+        ) {
 
-                    <p>
-                        <strong>GPA:</strong>
-                        ${semester.gpa.toFixed(2)}
-                    </p>
+            staffSubmissionList.innerHTML =
+                `<p class="empty-message">
+                    No student submissions yet.
+                </p>`;
 
-                    <button
-                        type="button"
-                        class="delete-button"
-                        onclick="deleteSemester(${index})"
-                    >
-                        Delete
-                    </button>
-                `;
+        } else {
 
-
-                semesterList.appendChild(item);
-
-            }
-        );
-
-    }
-
-
-    // =====================================
-    // DELETE SEMESTER
-    // =====================================
-
-    window.deleteSemester =
-        function (index) {
-
-            semesters.splice(index, 1);
-
-            displaySemesters();
-
-        };
-
-
-    // =====================================
-    // CALCULATE OVERALL CGPA
-    // =====================================
-
-    if (calculateCgpaButton) {
-
-        calculateCgpaButton.addEventListener(
-            "click",
-            function () {
-
-                if (
-                    semesters.length === 0
+            submissions.forEach(
+                function (
+                    submission
                 ) {
 
-                    alert(
-                        "Please add at least one semester GPA"
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "list-item";
+
+
+                    item.innerHTML =
+                        `
+                        <h3>
+                            ${submission.assignmentTitle}
+                        </h3>
+
+                        <p>
+                            <strong>
+                                Student Name:
+                            </strong>
+
+                            ${submission.studentName}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Subject:
+                            </strong>
+
+                            ${submission.subject}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Submitted File:
+                            </strong>
+
+                            ${submission.fileName}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Date:
+                            </strong>
+
+                            ${submission.submittedDate}
+                        </p>
+                        `;
+
+
+                    staffSubmissionList.appendChild(
+                        item
                     );
 
-                    return;
-
                 }
+            );
+
+        }
 
 
-                let totalGpa = 0;
+        if (
+            submissionCount
+        ) {
 
+            submissionCount.textContent =
+                submissions.length;
 
-                semesters.forEach(
-                    function (semester) {
-
-                        totalGpa +=
-                            semester.gpa;
-
-                    }
-                );
-
-
-                const cgpa =
-                    totalGpa /
-                    semesters.length;
-
-
-                cgpaResult.textContent =
-                    cgpa.toFixed(2);
-
-            }
-        );
+        }
 
     }
 
@@ -992,8 +1150,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     displayAssignments();
 
-    displayGpaSubjects();
+    displayStudentAssignments();
 
-    displaySemesters();git status
+    updateStudentAssignmentDropdown();
+
+    displayStudentSubmissions();
+
+    displayStaffSubmissions();
 
 });
